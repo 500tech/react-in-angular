@@ -5,7 +5,12 @@ import React, { Component } from 'react';
 angular.module('app', [])
   .directive('pic', () => {
     return {
-      template: `<h2>AngularJS is here!</h2>`
+      template: `
+        <div>
+          <h2>AngularJS is here!</h2>
+          <div class="inside">Inside</div>
+        </div>
+      `
     };
   });
 
@@ -20,7 +25,7 @@ const app2 = document.getElementById('app2');
 const app3 = document.getElementById('app3');
 
 angular.bootstrap(app1, ['app']);
-
 angular.bootstrap(app2, ['app']);
 
-React.render(<Pic />, app3);
+const inside = document.getElementsByClassName('inside')[0];
+React.render(<Pic />, inside);
