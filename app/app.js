@@ -12,12 +12,14 @@ angular.module('app', [])
     }
   })
 
-  .directive('reactRender', (Pic) => {
+  .directive('reactRender', ($injector) => {
     return {
       template: '<div></div>',
       link: (scope, element, attrs) => {
         const inside = element[0];
-        React.render(<Pic />, inside);
+        const Component = $injector.get(attrs.reactRender);
+
+        React.render(<Component />, inside);
       }
     }
   })
@@ -27,7 +29,7 @@ angular.module('app', [])
       template: `
         <div>
           <h2>AngularJS is here!</h2>
-          <div class="inside" react-render>Inside</div>
+          <div class="inside" react-render="Pic">Inside</div>
         </div>
       `
     };
