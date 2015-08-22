@@ -18,3 +18,9 @@ class Pic extends Component {
 const app1 = document.getElementById('app1');
 const app2 = document.getElementById('app2');
 const app3 = document.getElementById('app3');
+
+angular.bootstrap(app1, ['app']);
+
+angular.bootstrap(app2, ['app']);
+
+React.render(<Pic />, app3);
