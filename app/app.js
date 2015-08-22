@@ -9,14 +9,25 @@ angular.module('app', [])
 
     $interval(
       () => { this.data.counter += 1 },
-      Math.random(50) + 50
+      Math.random() * 200 + 50
     );
   })
 
-  .factory('Pic', (PicsService) => {
+  .factory('Pic', ($rootScope, PicsService) => {
     return class Pic extends Component {
+      constructor() {
+        super();
+
+        this.state = { counter: PicsService.data.counter };
+
+        $rootScope.$watch(
+          () => PicsService.data.counter,
+          (newVal) => this.setState({ counter: newVal })
+        );
+      }
+
       render() {
-        return (<h2>ReactJS is here! { PicsService.data.counter }</h2>);
+        return (<h2>ReactJS is here! { this.state.counter }</h2>);
       }
     }
   })
