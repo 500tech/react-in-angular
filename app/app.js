@@ -2,14 +2,17 @@
 
 import React, { Component } from 'react';
 
-class Pic extends Component {
-  render() {
-    return (<h2>ReactJS is here!</h2>);
-  }
-}
-
 angular.module('app', [])
-  .directive('reactRender', () => {
+
+  .factory('Pic', () => {
+    return class Pic extends Component {
+      render() {
+        return (<h2>ReactJS is here!</h2>);
+      }
+    }
+  })
+
+  .directive('reactRender', (Pic) => {
     return {
       template: '<div></div>',
       link: (scope, element, attrs) => {
