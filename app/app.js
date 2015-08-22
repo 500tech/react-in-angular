@@ -4,10 +4,19 @@ import React, { Component } from 'react';
 
 angular.module('app', [])
 
-  .factory('Pic', () => {
+  .service('PicsService', function ($interval) {
+    this.data = { counter: 0 };
+
+    $interval(
+      () => { this.data.counter += 1 },
+      Math.random(50) + 50
+    );
+  })
+
+  .factory('Pic', (PicsService) => {
     return class Pic extends Component {
       render() {
-        return (<h2>ReactJS is here!</h2>);
+        return (<h2>ReactJS is here! { PicsService.data.counter }</h2>);
       }
     }
   })
@@ -24,11 +33,15 @@ angular.module('app', [])
     }
   })
 
-  .directive('pic', () => {
+  .directive('pic', (PicsService) => {
     return {
+      controller($scope) {
+        $scope.data = PicsService.data;
+      },
+
       template: `
         <div>
-          <h2>AngularJS is here!</h2>
+          <h2>AngularJS is here! {{ data.counter }}</h2>
           <div class="inside" react-render="Pic">Inside</div>
         </div>
       `
