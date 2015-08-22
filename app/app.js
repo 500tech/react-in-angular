@@ -15,19 +15,8 @@ angular.module('app', [])
 
   .factory('Pic', ($rootScope, PicsService) => {
     return class Pic extends Component {
-      constructor() {
-        super();
-
-        this.state = { counter: PicsService.data.counter };
-
-        $rootScope.$watch(
-          () => PicsService.data.counter,
-          (newVal) => this.setState({ counter: newVal })
-        );
-      }
-
       render() {
-        return (<h2>ReactJS is here! { this.state.counter }</h2>);
+        return (<h2>ReactJS is here! { this.props.counter }</h2>);
       }
     }
   })
@@ -38,8 +27,9 @@ angular.module('app', [])
       link: (scope, element, attrs) => {
         const inside = element[0];
         const Component = $injector.get(attrs.reactRender);
+        const render = (counter) => React.render(<Component counter={ counter } />, inside);
 
-        React.render(<Component />, inside);
+        scope.$watch(attrs.counter, render);
       }
     }
   })
@@ -53,7 +43,7 @@ angular.module('app', [])
       template: `
         <div>
           <h2>AngularJS is here! {{ data.counter }}</h2>
-          <div class="inside" react-render="Pic">Inside</div>
+          <div class="inside" react-render="Pic" counter="data.counter">Inside</div>
         </div>
       `
     };
